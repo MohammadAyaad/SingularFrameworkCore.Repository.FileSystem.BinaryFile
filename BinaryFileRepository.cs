@@ -13,8 +13,9 @@ public class BinaryFileRepository : ISingularCrudRepository<byte[]>
     {
         if (!File.Exists(this.Path))
         {
-            File.Create(this.Path);
-            File.WriteAllBytes(this.Path, entity);
+            FileStream fs = File.Create(this.Path);
+            fs.Write(entity);
+            fs.Close();
         }
         else
             throw new BinaryFileRepositoryFileAlreadyExistsException("File already exists");
