@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <PackageId>SingularFrameworkCore.Repository.FileSystem.BinaryFile</PackageId>
+    <Version>0.2.0-beta</Version>
+    <Authors>Mohammad Ayaad</Authors>
+    <Description>A library providing an implementation of SingularFrameworkCore.Repository.ISingularCrudRepository&lt;byte[]&gt; SingularFrameworkCore.Repository.ISingularCrudAsyncRepository&lt;byte[]&gt; and for a binary file on the file system</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MohammadAyaad/SingularFrameworkCore.Repository.FileSystem.BinaryFile</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MohammadAyaad/SingularFrameworkCore.Repository.FileSystem.BinaryFile</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>singular;io;object;single;managing;file;</PackageTags>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SingularFrameworkCore" Version="0.1.0-alpha" />
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+    <None Include="../LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  
+
+</Project>

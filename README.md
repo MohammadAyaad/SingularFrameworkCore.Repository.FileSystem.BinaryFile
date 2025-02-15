@@ -1,10 +1,10 @@
 # SingularFrameworkCore.Repository.FileSystem.BinaryFile
 
-A C# library that provides binary file storage implementation for the SingularFrameworkCore repository interface. This library offers both synchronous and asynchronous implementations for storing string data in binary files.
+A C# library that provides binary file storage implementation for the SingularFrameworkCore repository interface. This library offers both synchronous and asynchronous implementations for storing byte[] data in binary files.
 
 ## Features
 
-- **Binary File Storage**: Simple implementation for storing string data in binary files
+- **Binary File Storage**: Simple implementation for storing byte[] data in binary files
 - **Dual Implementation**: Both synchronous (`BinaryFileRepository`) and asynchronous (`BinaryFileRepositoryAsync`) versions
 - **CRUD Operations**: Full support for Create, Read, Update, and Delete operations
 - **Path Management**: Secure file path handling
@@ -32,16 +32,16 @@ dotnet add package SingularFrameworkCore.Repository.FileSystem.BinaryFile
 using SingularFrameworkCore.Repository.FileSystem.BinaryFile;
 
 // Create an instance with a file path
-var repository = new BinaryFileRepository("path/to/your/file.txt");
+var repository = new BinaryFileRepository("path/to/your/file.bin");
 
 // Create
-repository.Create("Hello, World!");
+repository.Create(Encoding.UTF8.GetBytes("Hello, World!"));
 
 // Read
-string content = repository.Read();
+byte[] content = repository.Read();
 
 // Update
-repository.Update("Updated content");
+repository.Update(Encoding.UTF8.GetBytes("Updated content"));
 
 // Delete
 repository.Delete();
@@ -53,16 +53,16 @@ repository.Delete();
 using SingularFrameworkCore.Repository.FileSystem.BinaryFile;
 
 // Create an instance with a file path
-var repository = new BinaryFileRepositoryAsync("path/to/your/file.txt");
+var repository = new BinaryFileRepositoryAsync("path/to/your/file.bin");
 
 // Create
-await repository.Create("Hello, World!");
+await repository.Create(Encoding.UTF8.GetBytes("Hello, World!"));
 
 // Read
-string content = await repository.Read();
+byte[] content = await repository.Read();
 
 // Update
-await repository.Update("Updated content");
+await repository.Update(Encoding.UTF8.GetBytes("Updated content"));
 
 // Delete
 await repository.Delete();
@@ -70,11 +70,11 @@ await repository.Delete();
 
 ## Integration with SingularFrameworkCore
 
-This library implements the `ISingularCrudRepository<string>` and `ISingularCrudAsyncRepository<string>` interfaces from SingularFrameworkCore, making it perfect for use with the Singular pipeline:
+This library implements the `ISingularCrudRepository<byte[]>` and `ISingularCrudAsyncRepository<byte[]>` interfaces from SingularFrameworkCore, making it perfect for use with the Singular pipeline:
 
 ```csharp
-var singular = new Singular<MyClass, string>(
-    new BinaryFileRepository("data.txt"), // or BinaryFileRepositoryAsync
+var singular = new Singular<MyClass, byte[]>(
+    new BinaryFileRepository("data.bin"), // or BinaryFileRepositoryAsync
     serializer,
     preProcessors,
     postProcessors
@@ -90,7 +90,7 @@ The library includes a custom exception:
 ```csharp
 try 
 {
-    repository.Create("content");
+    repository.Create(Encoding.UTF8.GetBytes("content"));
 }
 catch (BinaryFileRepositoryFileAlreadyExistsException ex)
 {

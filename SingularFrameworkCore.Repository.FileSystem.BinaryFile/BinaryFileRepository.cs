@@ -3,21 +3,34 @@
 public class BinaryFileRepository : ISingularCrudRepository<byte[]>
 {
     public string Path { get; }
+    public bool Overwrite { get; set; }
 
-    public BinaryFileRepository(string path)
+    public BinaryFileRepository(string path, bool overwrite = false)
     {
         this.Path = path;
+        this.Overwrite = overwrite;
     }
 
     public void Create(byte[] entity)
     {
         if (!File.Exists(this.Path))
         {
-            File.Create(this.Path);
-            File.WriteAllBytes(this.Path, entity);
+            FileStream fs = File.Create(this.Path);
+            fs.Write(entity);
+            fs.Close();
         }
         else
-            throw new BinaryFileRepositoryFileAlreadyExistsException("File already exists");
+        {
+            if (this.Overwrite)
+            {
+                File.Delete(this.Path);
+                FileStream fs = File.Create(this.Path);
+                fs.Write(entity);
+                fs.Close();
+            }
+            else
+                throw new BinaryFileRepositoryFileAlreadyExistsException("File already exists");
+        }
     }
 
     public byte[] Read()

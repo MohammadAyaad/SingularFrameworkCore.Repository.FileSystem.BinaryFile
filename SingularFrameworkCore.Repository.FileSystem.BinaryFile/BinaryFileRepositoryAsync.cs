@@ -3,21 +3,34 @@ namespace SingularFrameworkCore.Repository.FileSystem.BinaryFile;
 public class BinaryFileRepositoryAsync : ISingularCrudAsyncRepository<byte[]>
 {
     public string Path { get; }
+    public bool Overwrite { get; set; }
 
-    public BinaryFileRepositoryAsync(string path)
+    public BinaryFileRepositoryAsync(string path, bool overwrite = false)
     {
         this.Path = path;
+        this.Overwrite = overwrite;
     }
 
     public async Task Create(byte[] entity)
     {
         if (!File.Exists(this.Path))
         {
-            File.Create(this.Path);
-            await File.WriteAllBytesAsync(this.Path, entity);
+            FileStream fs = File.Create(this.Path);
+            await fs.WriteAsync(entity);
+            fs.Close();
         }
         else
-            throw new BinaryFileRepositoryFileAlreadyExistsException("File already exists");
+        {
+            if (this.Overwrite)
+            {
+                File.Delete(this.Path);
+                FileStream fs = File.Create(this.Path);
+                await fs.WriteAsync(entity);
+                fs.Close();
+            }
+            else
+                throw new BinaryFileRepositoryFileAlreadyExistsException("File already exists");
+        }
     }
 
     public async Task<byte[]> Read()
