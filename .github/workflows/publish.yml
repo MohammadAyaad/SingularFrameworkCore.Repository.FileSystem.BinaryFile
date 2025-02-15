@@ -3,7 +3,7 @@ name: Publish to NuGet
 
 on:
   workflow_run:
-    workflows: ["Run Unit Tests"]
+    workflows: ["Run Unit Tests","Check Code Formatting"]
     types: [completed]
   push:
     branches:
